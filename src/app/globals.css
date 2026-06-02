@@ -1,0 +1,295 @@
+:root {
+  --bg: #f6f7fb;
+  --panel: #ffffff;
+  --ink: #18202f;
+  --muted: #667085;
+  --line: #d9dee8;
+  --blue: #1f6feb;
+  --green: #11845b;
+  --yellow: #a15c00;
+  --red: #c0352b;
+  --purple: #6f42c1;
+  --shadow: 0 12px 28px rgba(16, 24, 40, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+button,
+textarea,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+.shell {
+  min-height: 100vh;
+}
+
+.topbar {
+  background: #14213d;
+  color: #fff;
+  padding: 22px 32px;
+}
+
+.topbar-inner {
+  align-items: center;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
+.brand h1 {
+  font-size: 24px;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
+
+.brand p {
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.status-pill {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  color: #fff;
+  padding: 9px 14px;
+  white-space: nowrap;
+}
+
+.workspace {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 360px minmax(0, 1fr);
+  margin: 24px auto;
+  max-width: 1280px;
+  padding: 0 24px 32px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.panel-header {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 20px;
+}
+
+.panel-header h2 {
+  font-size: 17px;
+  margin: 0 0 6px;
+}
+
+.panel-header p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.import-panel form,
+.control-panel {
+  display: grid;
+  gap: 14px;
+  padding: 18px 20px 20px;
+}
+
+label {
+  color: #344054;
+  display: grid;
+  font-weight: 700;
+  gap: 8px;
+}
+
+input,
+select,
+textarea {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--ink);
+  padding: 10px 12px;
+  width: 100%;
+}
+
+textarea {
+  min-height: 260px;
+  resize: vertical;
+}
+
+.primary-btn {
+  background: var(--blue);
+  border-radius: 7px;
+  color: #fff;
+  font-weight: 700;
+  padding: 11px 14px;
+}
+
+.secondary-btn {
+  background: #eef4ff;
+  border: 1px solid #bfd3ff;
+  border-radius: 7px;
+  color: #194185;
+  padding: 9px 12px;
+}
+
+.notice {
+  border-radius: 7px;
+  color: #344054;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.notice.ok {
+  background: #e7f8f0;
+  color: var(--green);
+}
+
+.notice.error {
+  background: #fff1f0;
+  color: var(--red);
+}
+
+.main {
+  display: grid;
+  gap: 20px;
+}
+
+.stats-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.stat span {
+  color: var(--muted);
+  display: block;
+  margin-top: 8px;
+}
+
+.toolbar {
+  align-items: end;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) 180px auto;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  min-width: 980px;
+  width: 100%;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 13px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f8fafc;
+  color: #475467;
+  font-size: 13px;
+}
+
+.risk {
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 9px;
+}
+
+.risk.high {
+  background: #ffebe9;
+  color: var(--red);
+}
+
+.risk.medium {
+  background: #fff4db;
+  color: var(--yellow);
+}
+
+.risk.low {
+  background: #e7f8f0;
+  color: var(--green);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.row-actions {
+  display: grid;
+  gap: 8px;
+  min-width: 220px;
+}
+
+.inline {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr auto;
+}
+
+.empty {
+  color: var(--muted);
+  padding: 42px 20px;
+  text-align: center;
+}
+
+@media (max-width: 940px) {
+  .topbar-inner,
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace {
+    padding: 0 16px 24px;
+  }
+
+  .topbar-inner,
+  .toolbar {
+    align-items: stretch;
+    display: grid;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

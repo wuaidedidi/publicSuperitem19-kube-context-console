@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ImportBatch {
+  id        String        @id @default(cuid())
+  source    String
+  summary   String
+  createdAt DateTime      @default(now())
+  contexts  KubeContext[]
+}
+
+model Cluster {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  server    String
+  insecure  Boolean       @default(false)
+  createdAt DateTime      @default(now())
+  contexts  KubeContext[]
+}
+
+model Credential {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  authType  String
+  createdAt DateTime      @default(now())
+  contexts  KubeContext[]
+}
+
+model KubeContext {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  namespace   String      @default("default")
+  environment String
+  riskLevel   String
+  riskReasons String
+  owner       String      @default("未分配")
+  clusterId   String
+  userId      String
+  batchId     String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  cluster     Cluster     @relation(fields: [clusterId], references: [id])
+  credential  Credential  @relation(fields: [userId], references: [id])
+  batch       ImportBatch @relation(fields: [batchId], references: [id])
+}
