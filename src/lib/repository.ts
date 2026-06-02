@@ -1,8 +1,10 @@
 import type { Prisma } from "@prisma/client";
 import type { ImportResult, ParsedContext } from "./types";
 import { prisma } from "./prisma";
+import { ensureDatabase } from "./bootstrap";
 
 export async function saveImportResult(result: ImportResult) {
+  await ensureDatabase();
   return prisma.$transaction(async (tx) => {
     const batch = await tx.importBatch.create({
       data: {
@@ -76,6 +78,7 @@ async function upsertContext(
 }
 
 export async function listContexts(query?: string, riskLevel?: string) {
+  await ensureDatabase();
   return prisma.kubeContext.findMany({
     where: {
       ...(query
@@ -99,6 +102,7 @@ export async function listContexts(query?: string, riskLevel?: string) {
 }
 
 export async function getStats() {
+  await ensureDatabase();
   const contexts = await prisma.kubeContext.findMany();
   return {
     total: contexts.length,
@@ -116,6 +120,7 @@ export async function updateContext(
     owner?: string;
   }
 ) {
+  await ensureDatabase();
   return prisma.kubeContext.update({
     where: { id },
     data,
