@@ -103,7 +103,10 @@ export async function listContexts(query?: string, riskLevel?: string) {
 
 export async function getStats() {
   await ensureDatabase();
-  const contexts = await prisma.kubeContext.findMany();
+  const contexts = (await prisma.kubeContext.findMany()) as Array<{
+    riskLevel: string;
+    environment: string;
+  }>;
   return {
     total: contexts.length,
     highRisk: contexts.filter((item) => item.riskLevel === "high").length,
