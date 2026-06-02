@@ -5,7 +5,7 @@ import { ensureDatabase } from "./bootstrap";
 
 export async function saveImportResult(result: ImportResult) {
   await ensureDatabase();
-  return prisma.$transaction(async (tx) => {
+  return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const batch = await tx.importBatch.create({
       data: {
         source: result.source,
