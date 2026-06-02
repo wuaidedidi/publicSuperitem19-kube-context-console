@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseKubeConfig } from "../src/lib/kubeconfig";
 import { saveImportResult } from "../src/lib/repository";
-import { prisma } from "../src/lib/prisma";
+import { getDatabase } from "../src/lib/database";
 
 async function main() {
   const content = readFileSync(join(process.cwd(), "tests/fixtures/sample-kubeconfig.yaml"), "utf8");
@@ -16,6 +16,6 @@ main()
     console.error(error);
     process.exitCode = 1;
   })
-  .finally(async () => {
-    await prisma.$disconnect();
+  .finally(() => {
+    getDatabase().close();
   });

@@ -130,7 +130,7 @@ export function Dashboard({
             <h1>Kube Context Console</h1>
             <p>把分散的 kubeconfig context 变成可检索、可复核、可追踪的治理台。</p>
           </div>
-          <div className="status-pill">SQLite 本地存储 · Next.js API · Prisma 管理模型</div>
+          <div className="status-pill">SQLite 本地存储 · Next.js API · 直接 SQL 管理模型</div>
         </div>
       </header>
 

@@ -22,7 +22,7 @@ Kube Context Console 将这些信息导入 SQLite，形成一个可查询、可�
 | 台账检索 | 按 context、namespace、owner、风险等级筛选 |
 | 责任分派 | 在页面中更新 owner，便于平台团队跟进 |
 | namespace 调整 | 记录治理后的 namespace，支撑复核流程 |
-| 本地数据存储 | 使用 Prisma + SQLite，适合单团队内网治理和 QA 验收 |
+| 本地数据存储 | 使用 better-sqlite3 + SQLite，适合单团队内网治理和 QA 验收 |
 
 ## 架构图
 
@@ -32,7 +32,7 @@ flowchart LR
   B --> C[/api/import]
   C --> D[kubeconfig 解析器]
   D --> E[风险规则引擎]
-  E --> F[Prisma Repository]
+  E --> F[SQLite Repository]
   F --> G[(SQLite)]
   B --> H[/api/contexts]
   B --> I[/api/stats]
@@ -108,7 +108,7 @@ erDiagram
 
 - TypeScript
 - Next.js App Router
-- Prisma
+- better-sqlite3
 - SQLite
 - Vitest
 
@@ -117,8 +117,6 @@ erDiagram
 ```bash
 npm install
 cp .env.example .env
-npm run db:generate
-npm run db:push
 npm run db:seed
 npm run dev
 ```
@@ -147,7 +145,7 @@ npm run verify
 ## QA 验收流程
 
 1. 执行 `npm install` 安装依赖。
-2. 执行 `cp .env.example .env && npm run db:push && npm run db:seed` 初始化数据库。
+2. 执行 `cp .env.example .env && npm run db:seed` 初始化数据库。
 3. 执行 `npm run dev`，打开 `http://localhost:3000`。
 4. 首页应展示已导入的 context 台账，并能看到高风险统计。
 5. 在左侧导入框粘贴 `tests/fixtures/sample-kubeconfig.yaml` 的内容并提交。
@@ -174,11 +172,11 @@ http://localhost:3000
 
 | 现象 | 处理方式 |
 | --- | --- |
-| 页面提示数据库表不存在 | 执行 `npm run db:push` |
-| `PrismaClientInitializationError` | 检查 `.env` 中 `DATABASE_URL` 是否为 `file:./dev.db` |
+| 页面提示数据库表不存在 | 确认 `.env` 中 `DATABASE_URL` 为 `file:./dev.db`，再重启应用，表结构会自动创建 |
+| 数据库文件不可写 | 检查项目目录权限，或把 `DATABASE_URL` 改成可写路径 |
 | 导入失败且提示内容过短 | 确认粘贴的是完整 kubeconfig YAML |
 | 页面无数据 | 执行 `npm run db:seed` 或从页面重新导入 kubeconfig |
-| 构建失败且提示 Prisma Client 缺失 | 执行 `npm run db:generate` |
+| 构建失败且提示 native 模块缺失 | 删除 `node_modules` 后重新执行 `npm install` |
 
 ## 目录结构
 
@@ -186,8 +184,9 @@ http://localhost:3000
 src/app                 Next.js 页面与 API 路由
 src/components          工作台交互组件
 src/lib/kubeconfig.ts   kubeconfig 解析和风险规则
-src/lib/repository.ts   Prisma 数据读写
-prisma/schema.prisma    SQLite 数据模型
+src/lib/repository.ts   SQLite 数据读写
+src/lib/database.ts     SQLite 连接管理
+prisma/schema.prisma    数据模型说明
 tests/                  核心流程测试
 scripts/seed.ts         QA 验收数据导入
 ```

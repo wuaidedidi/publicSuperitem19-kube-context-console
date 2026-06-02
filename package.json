@@ -5,17 +5,17 @@
   "description": "面向平台团队的 Kubernetes context 治理台",
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 3000",
-    "build": "prisma generate && next build",
-    "start": "next start -H 0.0.0.0 -p 3000",
+    "build": "next build",
+    "start": "node .next/standalone/server.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push",
+    "db:generate": "node -e \"console.log('SQLite 表结构由应用启动时自动校验，prisma/schema.prisma 保留为数据模型说明。')\"",
+    "db:push": "node -e \"console.log('应用启动时会自动创建 SQLite 表，无需手动推送迁移。')\"",
     "db:seed": "tsx scripts/seed.ts",
     "verify": "npm run test && npm run build"
   },
   "dependencies": {
-    "@prisma/client": "^6.8.2",
+    "better-sqlite3": "^12.10.0",
     "js-yaml": "^4.1.0",
     "next": "^15.3.3",
     "react": "^19.1.0",
@@ -23,11 +23,11 @@
     "zod": "^3.25.46"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.15.29",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
-    "prisma": "^6.8.2",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "vitest": "^3.1.4"
